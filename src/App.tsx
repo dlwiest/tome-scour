@@ -1,38 +1,23 @@
-import * as React from "react"
+import { Routes, Route, Navigate } from 'react-router-dom';
 import {
-  ChakraProvider,
-  Box,
-  Text,
-  Link,
-  VStack,
-  Code,
-  Grid,
-  theme,
-} from "@chakra-ui/react"
-import { ColorModeSwitcher } from "./ColorModeSwitcher"
-import { Logo } from "./Logo"
+	ChakraProvider,
+	Flex,
+	theme,
+} from "@chakra-ui/react";
+
+import Header from './components/global/Header';
+import Search from './components/views/Search';
+import Collections from './components/views/Collections'
 
 export const App = () => (
-  <ChakraProvider theme={theme}>
-    <Box textAlign="center" fontSize="xl">
-      <Grid minH="100vh" p={3}>
-        <ColorModeSwitcher justifySelf="flex-end" />
-        <VStack spacing={8}>
-          <Logo h="40vmin" pointerEvents="none" />
-          <Text>
-            Edit <Code fontSize="xl">src/App.tsx</Code> and save to reload.
-          </Text>
-          <Link
-            color="teal.500"
-            href="https://chakra-ui.com"
-            fontSize="2xl"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn Chakra
-          </Link>
-        </VStack>
-      </Grid>
-    </Box>
-  </ChakraProvider>
-)
+	<ChakraProvider theme={theme}>
+		<Header />
+		<Flex py={{ base: 2 }} px={{ base: 4 }}>
+			<Routes>
+				<Route path="/" element={<Navigate replace to="/search" />} />
+				<Route path="/search" element={<Search />} />
+				<Route path="/collections" element={<Collections />} />
+			</Routes>
+		</Flex>
+	</ChakraProvider>
+);
