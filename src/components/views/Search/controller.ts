@@ -1,20 +1,27 @@
 import axios from "axios";
-import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useMutation } from "react-query";
+
+import { useFormPersist } from "../../../hooks";
 
 const SearchController = () => {
     const {
         handleSubmit,
         register,
+        watch,
+        setValue,
         formState: {
             errors,
             isSubmitting,
         }
-    } = useForm();
+    } = useForm({
+        shouldUnregister: false,
+    });
 
-    const search = (queryParams: FieldValues) => {
-        return axios.get('https://api.scryfall.com/cards/search?order=cmc&q=c%3Ared+pow%3D3');
+    useFormPersist({ name: 'search-form', watch, setValue });
+
+    const search = ({ name }: FieldValues) => {
+        return axios.get(`https://api.scryfall.com/cards/search?order=name&q=name:${name}`);
     };
 
     const query = useMutation(search, {
@@ -24,7 +31,7 @@ const SearchController = () => {
     });
 
     const onSubmit = async (data: FieldValues) => {
-        await query.mutateAsync(data);
+        await query.mutateAsync(data);        
     };
 
     return {
