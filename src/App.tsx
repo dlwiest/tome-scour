@@ -5,9 +5,9 @@ import {
 	theme,
 } from "@chakra-ui/react";
 
-import Header from './components/global/Header';
-import Search from './components/views/Search';
-import Collections from './components/views/Collections'
+import Header from './components/global/Header/Header';
+import Search from './components/views/Search/Search';
+import Collections from './components/views/Collections/Collections'
 
 export const App = () => (
 	<ChakraProvider theme={theme}>

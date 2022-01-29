@@ -15,10 +15,10 @@ import {
 	CloseIcon,
 } from '@chakra-ui/icons';
 
-import ColorModeSwitcher from "../ColorModeSwitcher";
+import ColorModeSwitcher from "../ColorModeSwitcher/ColorModeSwitcher";
 
-import DesktopNav from './DesktopNav';
-import MobileNav from './MobileNav';
+import DesktopNav from './DesktopNav/DesktopNav';
+import MobileNav from './MobileNav/MobileNav';
 
 export interface INavItem {
 	label: string;

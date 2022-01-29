@@ -4,7 +4,7 @@ import {
 } from '@chakra-ui/react';
 import { FieldValues, UseFormRegister } from 'react-hook-form';
 
-import useSetSelectController from './controller';
+import useSetSelectController from './SetSelect.controller';
 
 interface ISetSelectProps {
     register: UseFormRegister<FieldValues>;

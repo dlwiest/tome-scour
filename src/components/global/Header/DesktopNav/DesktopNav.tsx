@@ -1,7 +1,7 @@
 import { useColorModeValue, Stack, Box, Link } from '@chakra-ui/react';
 import { Link as RouterLink } from "react-router-dom";
 
-import { INavItem } from '..';
+import { INavItem } from '../Header';
 
 interface IProps {
     navigationItems: INavItem[];

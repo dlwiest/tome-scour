@@ -10,9 +10,9 @@ import {
 	Divider,
 } from "@chakra-ui/react";
 
-import SetSelect from './SetSelect'
+import SetSelect from './SetSelect/SetSelect'
 
-import useSearchController from "./controller";
+import useSearchController from "./Search.controller";
 
 const Search = () => {
 	const { onSubmit, errors, register, isSubmitting, reset, query, restoreFieldData } = useSearchController();
