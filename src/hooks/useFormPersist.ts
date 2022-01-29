@@ -6,18 +6,25 @@ interface IFormPersistProps {
     watch: UseFormWatch<FieldValues>;
     setValue: UseFormSetValue<FieldValues>;
     exclusions?: string[];
+    onRestoredFields?: () => void;
 }
 
 interface IFieldData {
     [name: string]: any;
 }
 
-const useFormPersist = ({ name, watch, setValue, exclusions }: IFormPersistProps) => {
+const useFormPersist = ({
+    name,
+    watch,
+    setValue,
+    exclusions,
+    onRestoredFields = () => { },
+}: IFormPersistProps) => {
+
     useEffect(() => {
         restoreFieldData();
 
-        const subscription = watch((a) => { persistFieldData(a); });
-
+        const subscription = watch((a: IFieldData) => { persistFieldData(a); });
         return () => subscription.unsubscribe();
     }, [watch]);
 
@@ -31,6 +38,8 @@ const useFormPersist = ({ name, watch, setValue, exclusions }: IFormPersistProps
                 setValue(k, restored[k]);
             });
         }
+
+        onRestoredFields();
     };
 
     const persistFieldData = (fields: IFieldData) => {
@@ -42,7 +51,7 @@ const useFormPersist = ({ name, watch, setValue, exclusions }: IFormPersistProps
         window.localStorage.removeItem(`forms/${name}`);
     };
 
-    return { clearPersistence };
+    return { clearPersistence, restoreFieldData, persistFieldData };
 };
 
 export default useFormPersist;

@@ -10,6 +10,7 @@ const SearchController = () => {
         register,
         watch,
         setValue,
+        reset,
         formState: {
             errors,
             isSubmitting,
@@ -18,7 +19,7 @@ const SearchController = () => {
         shouldUnregister: false,
     });
 
-    useFormPersist({ name: 'search-form', watch, setValue });
+    const { restoreFieldData } = useFormPersist({ name: 'search-form', watch, setValue });
 
     const search = ({ name }: FieldValues) => {
         return axios.get(`https://api.scryfall.com/cards/search?order=name&q=name:${name}`);
@@ -31,7 +32,7 @@ const SearchController = () => {
     });
 
     const onSubmit = async (data: FieldValues) => {
-        await query.mutateAsync(data);        
+        await query.mutateAsync(data);
     };
 
     return {
@@ -39,7 +40,9 @@ const SearchController = () => {
         errors,
         isSubmitting,
         onSubmit: handleSubmit(onSubmit),
+        reset,
         query,
+        restoreFieldData,
     };
 };
 

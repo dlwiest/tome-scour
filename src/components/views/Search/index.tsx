@@ -10,16 +10,16 @@ import {
 	Divider,
 } from "@chakra-ui/react";
 
+import SetSelect from './SetSelect'
+
 import useSearchController from "./controller";
 
 const Search = () => {
-	const { onSubmit, errors, register, isSubmitting, query } = useSearchController();
-
-	console.log(query);
+	const { onSubmit, errors, register, isSubmitting, reset, query, restoreFieldData } = useSearchController();
 
 	return (
 		<Flex direction={'column'} flexGrow={1}>
-			<Heading>Search</Heading>
+			<Heading size='lg'>Search</Heading>
 			<Box py={{ base: 4 }} px={{ base: 4 }} w={['100%', '100%', 600]}>
 				<form onSubmit={onSubmit}>
 					<Stack spacing={4}>
@@ -34,13 +34,13 @@ const Search = () => {
 							</FormControl>
 						</Box>
 
-						<Stack direction={'row'}>
+						<Stack direction='row'>
 							<FormControl isInvalid={errors.set}>
 								<FormLabel htmlFor='set'>Set</FormLabel>
-								<Input
+								<SetSelect
 									id='set'
-									placeholder='Set'
-									{...register('set')}
+									register={register}
+									onLoadSets={restoreFieldData}
 								/>
 							</FormControl>
 
@@ -54,9 +54,11 @@ const Search = () => {
 							</FormControl>
 						</Stack>
 
-						<FormControl>
-							<Button mt={4} colorScheme={'blue'} isLoading={isSubmitting} type='submit'>Search</Button>
-						</FormControl>
+						<Stack direction='row' py={2}>
+							<Button colorScheme='blue' isLoading={isSubmitting} type='submit'>Search</Button>
+							<Button colorScheme='red' onClick={() => { reset(); }}>Reset Fields</Button>
+						</Stack>
+
 					</Stack>
 				</form>
 			</Box>
