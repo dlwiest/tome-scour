@@ -1,4 +1,3 @@
-import { SpinnerIcon } from '@chakra-ui/icons';
 import {
     Select
 } from '@chakra-ui/react';
@@ -16,7 +15,7 @@ const SetSelect = ({ register, onLoadSets, ...props }: ISetSelectProps) => {
     const { isLoading, sets } = useSetSelectController(onLoadSets);
 
     return <Select
-        placeholder='Select a Set'
+        placeholder='Any Set'
         isDisabled={isLoading}
         {...register('set')}
         {...props}>

@@ -1,49 +1,22 @@
-import axios from "axios";
-import { FieldValues, useForm } from "react-hook-form";
-import { useMutation } from "react-query";
-
-import { useFormPersist } from "../../../hooks";
+import { useEffect, useState } from 'react';
+import { useIsMount } from '../../../hooks/useIsMount';
+import { ISearchQueryParams, useSearchResults } from '../../../services/scryfall';
 
 const SearchController = () => {
-    const {
-        handleSubmit,
-        register,
-        watch,
-        setValue,
-        reset,
-        formState: {
-            errors,
-            isSubmitting,
-        }
-    } = useForm({
-        shouldUnregister: false,
-    });
+    const [queryParams, setQueryParams] = useState<ISearchQueryParams>({ name: '' })
+    const isMount = useIsMount();
 
-    const { restoreFieldData } = useFormPersist({ name: 'search-form', watch, setValue });
+    const { refetch, isLoading, isRefetching, data } = useSearchResults(queryParams);
+    console.log(data);
 
-    const search = ({ name }: FieldValues) => {
-        return axios.get(`https://api.scryfall.com/cards/search?order=name&q=name:${name}`);
-    };
-
-    const query = useMutation(search, {
-        onError: () => {
-            alert('Error running search query');
-        }
-    });
-
-    const onSubmit = async (data: FieldValues) => {
-        await query.mutateAsync(data);
-    };
+    useEffect(() => {
+        if (!isMount) refetch();
+    }, [queryParams])
 
     return {
-        register,
-        errors,
-        isSubmitting,
-        onSubmit: handleSubmit(onSubmit),
-        reset,
-        query,
-        restoreFieldData,
-    };
+        onSearch: setQueryParams,
+        isLoading: isLoading || isRefetching
+    }
 };
 
 export default SearchController;

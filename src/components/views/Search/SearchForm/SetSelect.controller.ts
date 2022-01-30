@@ -1,16 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
 import { useToast } from '@chakra-ui/react';
-import axios from 'axios';
+import { useSets } from '../../../../services/scryfall';
 
 const SetSelectController = (onLoadSets: () => void) => {
     const [sets, setSets] = useState([]);
     const toast = useToast();
 
-    const { isLoading, error, data } = useQuery('sets', () => {
-        return axios.get('https://api.scryfall.com/sets');
-    });
-
+    const { isLoading, error, data } = useSets();
     useEffect(() => {
         if (error) {
             toast({
